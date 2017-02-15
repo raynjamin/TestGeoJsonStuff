@@ -11,10 +11,10 @@ public class GeoJSON {
 
     public List<Feature> features = new ArrayList<>();
 
-    public static GeoJSON buildGeoJson(Point p) {
+    public static GeoJSON buildGeoJson(Geometry g) {
         GeoJSON results = new GeoJSON();
 
-        results.features.add(new Feature(p));
+        results.features.add(new Feature(g));
 
         return results;
     }

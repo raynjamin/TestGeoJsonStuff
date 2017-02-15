@@ -1,14 +1,17 @@
 package com.example;
 
 import com.example.geojson.models.GeoJSON;
-import com.example.geojson.models.Point;
+import com.example.geojson.models.LineString;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.LatLng;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by Ben on 2/14/17.
@@ -27,6 +30,8 @@ public class SampleController {
 
         DirectionsResult directionsResult = directionsRequest.await();
 
-        return GeoJSON.buildGeoJson(new Point(directionsResult.routes[0].legs[0].steps[0].startLocation.lat, directionsResult.routes[0].legs[0].steps[0].startLocation.lng));
+        List<LatLng> latlngs = directionsResult.routes[0].overviewPolyline.decodePath();
+
+        return GeoJSON.buildGeoJson(new LineString(latlngs));
     }
 }
